@@ -25,15 +25,15 @@ Note: You need a recent Linux distribution with grub2 installed (e.g. Arch or Ma
 
 ####Hints:
 #####To find your drives device file you can use following tools:
-lsblk
-blkid
-mount
+ * lsblk
+ * blkid
+ * mount
 ...
 
 Compare attributes like size, label and partition layout to find the drive you want.
 
 #####To find the mountpoint you can either open it in your graphical File Manager, or use one of the following commands:
-mount
-mount | grep /*device file*/
+ * mount
+ * mount | grep *device file*
 
 It will probably be like /media/... or /run/media/*username*/...
