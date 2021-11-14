@@ -14,17 +14,17 @@ The commands used below are meant to install the grub bootloader onto your usb d
 
 Note: You need a recent Linux distribution with grub2 installed (e.g. Arch or Manjaro LIVE CDs)
 
-#####Copy the directory "boot" from this repo to you USB Drive
-#####Edit boot/grub/grub.cfg:
+##### Copy the directory "boot" from this repo to you USB Drive
+##### Edit boot/grub/grub.cfg:
      set the value of "partition_label" to your drives label
-#####Install grub
-######(as root, hence the "#". You can also use sudo)
+##### Install grub
+###### (as root, hence the "#". You can also use sudo)
 	# grub-install --target=i386-pc --boot-directory=/*mountpoint of your usb drive*/ --no-floppy --recheck /dev/*device file of your usb drive*/
-######Note: the device file to be specified must be like /dev/sdx and NOT /dev/sdx1.
+###### Note: the device file to be specified must be like /dev/sdx and NOT /dev/sdx1.
         # grub-install --target=x86_64-efi --boot-directory==/*mountpoint of your usb drive*/ --efi-directory==/*mountpoint of your usb drive*/ --no-floppy --removable --recheck
 
-####Hints:
-#####To find your drives device file you can use following tools:
+#### Hints:
+##### To find your drives device file you can use following tools:
  * lsblk
  * blkid
  * mount
@@ -32,7 +32,7 @@ Note: You need a recent Linux distribution with grub2 installed (e.g. Arch or Ma
 
 Compare attributes like size, label and partition layout to find the drive you want.
 
-#####To find the mountpoint you can either open it in your graphical File Manager, or use one of the following commands:
+##### To find the mountpoint you can either open it in your graphical File Manager, or use one of the following commands:
  * mount
  * mount | grep *device file*
 
