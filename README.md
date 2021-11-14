@@ -5,8 +5,8 @@ Grub configfile and instructions to turn any USB drive into a multiboot drive.
 
 The goal is to preserve the the filesystem of the usb drive as it is, to that you can still carry your data and less advanced pieces of software (e.g. Windows) is still able to access it.
 
-#Instructions
-
+# Instructions
+## Disclaimer
 Be always sure to use the correct device files and mountpoints.
 The commands used below are meant to install the grub bootloader onto your usb drive, but can also install it on your hard drive, if told to do so, and overwrite your old bootloader. In that case your PC probably won't boot up anymore.
 **You are yourself responsible for your actions, not me, nor anyone else!**
