@@ -13,7 +13,7 @@ insmod search_label
 #    (e.g. "STICK", "DFgrt12" and NOT "boot", "root" etc.)
 # The reason for this is, if grub finds two or more drives with the
 # name you specified it's pure luck if it picks the right one.
-set partition_label="STICK"
+set partition_label="__FS_LABEL__"
 search --label --no-floppy --set=root $partition_label
 
 # Timeout for menu
@@ -34,7 +34,7 @@ menuentry "ArchISO (x86_64)" {
 
 # (1) Ubuntu ISO
 menuentry "Ubuntu ISO" {
-    set isofile="/boot/iso/ubuntustudio-13.04-dvd-i386.iso"
+    set isofile="/boot/iso/ubuntu-21.10-desktop-amd64.iso"
     loopback loop $isofile
     linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile quiet noeject noprompt splash --
     initrd (loop)/casper/initrd.lz
