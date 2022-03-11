@@ -7,33 +7,30 @@ The goal is to preserve the the filesystem of the usb drive as it is, to that yo
 
 # Instructions
 ## Disclaimer
-Be always sure to use the correct device files and mountpoints.
-The commands used below are meant to install the grub bootloader onto your usb drive, but can also install it on your hard drive, if told to do so, and overwrite your old bootloader. In that case your PC probably won't boot up anymore.
-**You are yourself responsible for your actions, not me, nor anyone else!**
+Be sure to always check what the setup script says it will do.
+There is no warranty. Even if the script says it will write to the correct block device, it might still delete your data.
+(But I highly doubt it.)
+**You are solely responsible for your actions, not me, nor anyone else!**
 
 
-Note: You need a recent Linux distribution with grub2 installed (e.g. Arch or Manjaro LIVE CDs)
+Note: You need a recent Linux distribution with the following tools installed:
+    - grub2 (grub-install) for x86 and x86_64
+	- jq
+	- sed
+	- lsblk
 
-## Copy the directory "boot" from this repo to you USB Drive
-## Edit boot/grub/grub.cfg:
-     set the value of "partition_label" to your drives label
-## Install grub
-### (as root, hence the "#". You can also use sudo)
-	# grub-install --target=i386-pc --boot-directory=/*mountpoint of your usb drive*/ --no-floppy --recheck /dev/*device file of your usb drive*/
-### Note: the device file to be specified must be like /dev/sdx and NOT /dev/sdx1.
-        # grub-install --target=x86_64-efi --boot-directory=/*mountpoint of your usb drive*/ --efi-directory=/*mountpoint of your usb drive*/ --no-floppy --removable --recheck
+## Give your USB drive a label
+Give it a unique label so grub can find it when booting.
+If there is another partition with the same label as grub looks for in your computer, grub will pick a random one and will try to read its config from it.
+Sarcastic bonus points if there is a grub config on the other device. ;)
+Under Linux you can use the following command:
+`sudo dosfslabel PATH_TO_DEVICE LABEL_FOR_DEVICE`
 
-## Hints:
-### To find your drives device file you can use following tools:
- * lsblk
- * blkid
- * mount
-...
+## Mount the USB drive
 
-Compare attributes like size, label and partition layout to find the drive you want.
-
-### To find the mountpoint you can either open it in your graphical File Manager, or use one of the following commands:
- * mount
- * mount | grep *device file*
-
-It will probably be like /media/... or /run/media/*username*/...
+## Run the setup script
+`./setup.sh PATH_TO_USB_MOUNT_POINT`
+The script will try to find all the needed information to copy the config file and install grub.
+It will ask you to confirm the directories and block devices it figured out.
+Check if they are correct and only press "y" if they are correct.
+If all went well it'll wish you a fun booting time, if it didn't it'll try to give you hints on what went wrong.
