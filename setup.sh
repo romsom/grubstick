@@ -20,6 +20,13 @@ fi
 DEVICE_NAME=$(basename "$DEVICE")
 DEVICE_PATH=$(dirname "$DEVICE")
 
+echo "" | jq .
+if [[ $? -ne 0 ]]; then
+    echo "The jq json parser seems not to be installed"
+    exit 1
+fi
+
+
 PARENT_DEVICE="$DEVICE_PATH/"$(lsblk --tree --output NAME --json | jq -r '{"children": .["blockdevices"]} | recurse(.children[]; .children != null) | if (.children | any(.["name"] == "'$DEVICE_NAME'")) then .["name"] else null end' | grep -v null)
 if [[ "n$PARENT_DEVICE" = "n" ]]; then
     PARENT_DEVICE="$DEVICE" # use device itself if it has no parent
