@@ -21,7 +21,7 @@ Note: You need a recent Linux distribution with grub2 installed (e.g. Arch or Ma
 ### (as root, hence the "#". You can also use sudo)
 	# grub-install --target=i386-pc --boot-directory=/*mountpoint of your usb drive*/ --no-floppy --recheck /dev/*device file of your usb drive*/
 ### Note: the device file to be specified must be like /dev/sdx and NOT /dev/sdx1.
-        # grub-install --target=x86_64-efi --boot-directory==/*mountpoint of your usb drive*/ --efi-directory==/*mountpoint of your usb drive*/ --no-floppy --removable --recheck
+        # grub-install --target=x86_64-efi --boot-directory=/*mountpoint of your usb drive*/ --efi-directory=/*mountpoint of your usb drive*/ --no-floppy --removable --recheck
 
 ## Hints:
 ### To find your drives device file you can use following tools:
