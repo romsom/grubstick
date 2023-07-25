@@ -52,8 +52,8 @@ mkdir -p "$TARGET/boot/iso"
 echo "Patch files"
 sed -e"s/__FS_LABEL__/$LABEL/g" "$TARGET/boot/grub/grub.cfg.in" > "$TARGET/boot/grub/grub.cfg"
 echo "Install GRUB"
-sudo grub-install --target=x86_64-efi --boot-directory="$TARGET" --efi-directory="$TARGET" --no-floppy --recheck --removable
-sudo grub-install --target=i386-pc --boot-directory="$TARGET" --no-floppy --recheck "$PARENT_DEVICE"
+sudo grub-install --target=x86_64-efi --boot-directory="$TARGET/boot" --efi-directory="$TARGET" --no-floppy --recheck --removable
+sudo grub-install --target=i386-pc --boot-directory="$TARGET/boot" --no-floppy --recheck "$PARENT_DEVICE"
 
 echo "Done"
 echo ""
