@@ -41,24 +41,33 @@ fi
 echo "Install config file in device \"$DEVICE\" with label \"$LABEL\" mounted at \"$TARGET\""
 echo "Install grub-i386 to device \"$PARENT_DEVICE\" and grub-x86_64 to \"$TARGET/EFI\""
 
-read -p "Do you want to continue? [yN]" -n 1 -r
+read -p "Do you want to continue (copy config only: u)? [yuN]" -n 1 -r
 echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    COPY=y
+    INSTALL=y
+elif [[ $REPLY =~ ^[Uu]$ ]]; then
+    COPY=y
+    INSTALL=n
+else
+    COPY=n
+    INSTALL=n
+fi
 
-echo "Copy files"
-cp -avr boot "$TARGET/"
-mkdir -p "$TARGET/boot/iso"
-echo "Patch files"
-sed -e"s/__FS_LABEL__/$LABEL/g" "$TARGET/boot/grub/grub.cfg.in" > "$TARGET/boot/grub/grub.cfg"
-echo "Install GRUB"
-sudo grub-install --target=x86_64-efi --boot-directory="$TARGET/boot" --efi-directory="$TARGET" --no-floppy --recheck --removable
-sudo grub-install --target=i386-pc --boot-directory="$TARGET/boot" --no-floppy --recheck "$PARENT_DEVICE"
-
+if [[ $COPY =~ ^[Yy]$ ]]; then
+    echo "Copy files"
+    cp -avr boot "$TARGET/"
+    mkdir -p "$TARGET/boot/iso"
+    echo "Patch files"
+    sed -e"s/__FS_LABEL__/$LABEL/g" "$TARGET/boot/grub/grub.cfg.in" > "$TARGET/boot/grub/grub.cfg"
+fi
+if [[ $INSTALL =~ ^[Yy]$ ]]; then
+    echo "Install GRUB"
+    sudo grub-install --target=x86_64-efi --boot-directory="$TARGET/boot" --efi-directory="$TARGET" --no-floppy --recheck --removable
+    sudo grub-install --target=i386-pc --boot-directory="$TARGET/boot" --no-floppy --recheck "$PARENT_DEVICE"
+fi
 echo "Done"
 echo ""
 # TODO remove edit instruction when grub config discovers images itself
 echo "Now put your ISOs in \"$TARGET/boot/iso\" and then edit \"$TARGET/boot/grub/grub.cfg\" accordingly"
 echo "Have fun booting :)"
-
-fi
