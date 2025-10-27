@@ -96,6 +96,23 @@ menuentry "Parted Magic ISO" {
 	initrd (loop)/pmagic/initrd.img
 }
 
+menuentry "Memtest86+ 64-bit EFI" {
+	  chainloader /boot/memtest86+/memtest64.efi
+}
+
+menuentry "Memtest86+ 64-bit BIOS" {
+	  chainloader /boot/memtest86+/memtest64.bin
+}
+
+menuentry "Memtest86+ 32-bit EFI" {
+	  chainloader /boot/memtest86+/memtest32.efi
+}
+
+menuentry "Memtest86+ 32-bit BIOS" {
+	  chainloader /boot/memtest86+/memtest32.bin
+}
+
+
 # (1) Arch Linux
 menuentry "Arch Linux (lokal)" {
     set root=(hd0,1)
