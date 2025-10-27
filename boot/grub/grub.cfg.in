@@ -114,7 +114,7 @@ menuentry "Memtest86+ 32-bit BIOS" {
 
 
 # (1) Arch Linux
-menuentry "Arch Linux (lokal)" {
+menuentry "Arch Linux (local)" {
     set root=(hd0,1)
     linux /vmlinuz-linux root=/dev/sda3 ro
     initrd /initramfs-linux.img
