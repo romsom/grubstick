@@ -5,6 +5,7 @@
 
 insmod part_msdos
 insmod search_label
+insmod regexp
 
 ### Setup root ###
 # You propably need to adjust partition_label to your drives label.
@@ -23,21 +24,29 @@ set timeout=25
 set default=0
 
 # (0) Arch Linux ISO
-menuentry "ArchISO (x86_64)" {
-
-    set isofile="/boot/iso/archlinux-2021.12.01-x86_64.iso"
-
-    loopback loop $isofile
-    linux (loop)/arch/boot/x86_64/vmlinuz-linux archisolabel="../../loop0" img_dev=/dev/disk/by-label/$partition_label img_loop=$isofile
-    initrd (loop)/arch/boot/x86_64/initramfs-linux.img
+submenu "ArchISO (x86_64)" $partition_label {
+	partition_label=$2
+	for isofile in /boot/iso/archlinux-*-x86_64.iso; do
+		menuentry $isofile $partition_label {
+			loopback loop $isofile
+			linux (loop)/arch/boot/x86_64/vmlinuz-linux archisolabel="../../loop0" img_dev="/dev/disk/by-label/$partition_label" img_loop="$isofile"
+			initrd (loop)/arch/boot/x86_64/initramfs-linux.img
+		}
+	done
 }
 
 # (1) Ubuntu ISO
-menuentry "Ubuntu ISO" {
-    set isofile="/boot/iso/ubuntu-21.10-desktop-amd64.iso"
-    loopback loop $isofile
-    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile quiet noeject noprompt splash --
-    initrd (loop)/casper/initrd.lz
+submenu "Ubuntu Desktop (x86_64)" $partition_label {
+	partition_label=$2
+	for isofile in "/boot/iso/ubuntu-*-desktop-amd64.iso"; do
+		menuentry $isofile {
+			loopback loop $isofile
+			# linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile quiet noeject noprompt splash --
+			# initrd (loop)/casper/initrd.lz
+			linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile noeject noprompt splash --
+			initrd (loop)/casper/initrd
+		}
+	done
 }
 
 menuentry "Linux Mint Cinnamon ISO" {
